@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    restart: always
+    env_file: ./.env
+    environment:
+      MONGO_URI: mongodb+srv://admin:admin@cluster0.w5rtgnf.mongodb.net/dashboard
+    ports:
+      - "8000:8000"
+      - "9229:9229" # for debugging
+    volumes:
+      - .:/home/app/
+      - /home/app/node_modules
+    command: npm run dev
