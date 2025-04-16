@@ -5,7 +5,7 @@ import {
   deleteInstructor,
   getInstrucotor,
   updateInstructor,
-} from "../controllers/admin/instructor.controller";
+} from "../../controllers/admin/instructor.controller";
 
 const router = Router();
 

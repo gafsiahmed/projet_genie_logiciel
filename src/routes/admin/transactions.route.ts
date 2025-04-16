@@ -5,7 +5,7 @@ import {
   getTransactionById,
   getTransactions,
   updateTransactionById,
-} from "../controllers/admin/transactions.controller";
+} from "../../controllers/admin/transactions.controller";
 
 const router = Router();
 

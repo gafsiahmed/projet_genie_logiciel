@@ -7,7 +7,7 @@ import {
   getIncomeById,
   getIncomes,
   updateIncomeById,
-} from "../controllers/admin/incomes.controller";
+} from "../../controllers/admin/incomes.controller";
 
 router.get("/", getIncomes);
 router.post("/", createIncome);

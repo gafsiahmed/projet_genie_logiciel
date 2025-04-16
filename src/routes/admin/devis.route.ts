@@ -5,7 +5,7 @@ import {
   deleteDevis,
   getDevis,
   updateDevis,
-} from "../controllers/admin/devis.controller";
+} from "../../controllers/admin/devis.controller";
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { sendAnnonceMail } from "../controllers/instructor/annonces.controller";
+import { sendAnnonceMail } from "../../controllers/instructor/annonces.controller";
 
 const router = Router();
 

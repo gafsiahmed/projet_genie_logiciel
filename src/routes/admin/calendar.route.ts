@@ -5,7 +5,7 @@ import {
   getAllEvents,
   getEventById,
   updateEventById,
-} from "../controllers/admin/calendar.controller";
+} from "../../controllers/admin/calendar.controller";
 
 const router = express.Router();
 

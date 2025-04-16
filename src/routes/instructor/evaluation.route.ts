@@ -3,7 +3,7 @@ import {
   createEvaluation,
   getEvaluations,
   updateEvaluation,
-} from "../controllers/instructor/evaluation.controller";
+} from "../../controllers/instructor/evaluation.controller";
 
 const router = Router();
 

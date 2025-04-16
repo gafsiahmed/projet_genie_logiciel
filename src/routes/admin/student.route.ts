@@ -1,12 +1,12 @@
 import { Router } from "express";
-import { accessByRole } from "../middleware/auth.middleware";
+import { accessByRole } from "../../middleware/auth.middleware";
 
 import {
   createStudent,
   deleteStudent,
   getStudents,
   updateStudent,
-} from "../controllers/admin/student.controller";
+} from "../../controllers/admin/student.controller";
 
 const router = Router();
 

@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   createTraining,
   getTrainings,
-} from "../controllers/admin/training.controller";
+} from "../../controllers/admin/training.controller";
 
 const router = Router();
 

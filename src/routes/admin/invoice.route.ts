@@ -5,8 +5,8 @@ import {
   deleteInvoice,
   getInvoices,
   updateInvoives,
-} from "../controllers/admin/invoice.controller";
-import { accessByRole } from "../middleware/auth.middleware";
+} from "../../controllers/admin/invoice.controller";
+import { accessByRole } from "../../middleware/auth.middleware";
 
 const router = Router();
 

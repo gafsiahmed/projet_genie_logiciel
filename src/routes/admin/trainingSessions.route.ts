@@ -7,7 +7,7 @@ import {
   getTrainingSessions,
   getTrainingSessionsByInstructorId,
   updateTrainingSession,
-} from "../controllers/admin/trainingSessions.controller";
+} from "../../controllers/admin/trainingSessions.controller";
 
 const router = Router();
 

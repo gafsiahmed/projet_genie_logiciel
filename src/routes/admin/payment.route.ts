@@ -7,7 +7,7 @@ import {
    getPaymentById,
   getPayments,
     updatePaymentById,
-} from "../controllers/admin/payments.controller";
+} from "../../controllers/admin/payments.controller";
 
 router.get("/", getPayments);
 

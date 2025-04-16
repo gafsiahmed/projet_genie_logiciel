@@ -11,10 +11,10 @@ export default async function connectToDatabase() {
     .set("strictQuery", false)
     .connect(db_url)
     .then(() => {
-      console.log("Connected to the database");
+      console.log("Connected to the database ✅");
     })
     .catch((e) => {
-      console.error("Connection to database error", e.message);
+      console.error("Connection to database error ❌", e.message);
     });
 }
 

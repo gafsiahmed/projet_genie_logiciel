@@ -5,7 +5,7 @@ import {
   deleteEmployee,
   getEmployee,
   updateEmployee,
-} from "../controllers/admin/employee.controller";
+} from "../../controllers/admin/employee.controller";
 
 const router = Router();
 

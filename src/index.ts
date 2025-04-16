@@ -10,22 +10,21 @@ import connectToDatabase from "./config/dbconnection";
 import error from "./middleware/error";
 
 //routers import
-import annoucementsRouter from "./routes/annonce.route";
+import calendarRouter from "./routes/admin/calendar.route";
+import devisRouter from "./routes/admin/devis.route";
+import employeeRouter from "./routes/admin/employee.route";
+import expensesRouter from "./routes/admin/expenses.route";
+import incomesRouter from "./routes/admin/incomes.route";
+import instructorRouter from "./routes/admin/instructor.route";
+import invoiceRouter from "./routes/admin/invoice.route";
+import paymentsRouter from "./routes/admin/payment.route";
+import studentrouter from "./routes/admin/student.route";
+import trainingrouter from "./routes/admin/training.route";
+import trainingSessions from "./routes/admin/trainingSessions.route";
+import transactions from "./routes/admin/transactions.route";
 import authRouter from "./routes/auth.route";
-import calendarRouter from "./routes/calendar.route";
-import devisRouter from "./routes/devis.route";
-import employeeRouter from "./routes/employee.route";
-import evaluationRouter from "./routes/evaluation.route";
-import expensesRouter from "./routes/expenses.route";
-import incomesRouter from "./routes/incomes.route";
-import instructorRouter from "./routes/instructor.route";
-import invoiceRouter from "./routes/invoice.route";
-import newsletterRouter from "./routes/newsletter.route";
-import paymentsRouter from "./routes/payment.route";
-import studentrouter from "./routes/student.route";
-import trainingrouter from "./routes/training.route";
-import trainingSessions from "./routes/trainingSessions.route";
-import transactions from "./routes/transactions.route";
+import annoucementsRouter from "./routes/instructor/annonce.route";
+import evaluationRouter from "./routes/instructor/evaluation.route";
 import userRouter from "./routes/user.route";
 
 // requiring the dotenv file
@@ -55,7 +54,7 @@ const { PORT } = process.env;
   await connectToDatabase();
 
   app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+    console.log(`Server is running at http://localhost:${PORT} ✅`);
   });
 })();
 
@@ -63,40 +62,38 @@ app.get("/", (req: Request, res: Response) => {
   res.send(" <h1> Server is Running correctly ✅ </h1> ");
 });
 
-//--------------users endpoint----------------
+//--------------users endpoint---------------- all users
 app.use("/api/users", userRouter);
-//--------------login endpoint----------------
+//--------------login endpoint---------------- all users 
 app.use("/api", authRouter);
-//--------------trainings endpoint------------
+//--------------trainings endpoint------------  admin
 app.use("/api/trainings", trainingrouter);
-//--------------students endpoint----------
+//--------------students endpoint---------- admin
 app.use("/api/students", studentrouter);
-//----------------intructors endpoint ----------------
+//----------------intructors endpoint ---------------- admin
 app.use("/api/instructors", instructorRouter);
-//---------------- employee invoices----------------
+//---------------- employee invoices---------------- admin
 app.use("/api/employees", employeeRouter);
-//----------------invoices invoices ----------------
+//----------------invoices invoices ---------------- admin
 app.use("/api/invoices", invoiceRouter);
-//----------------Devis invoices ----------------
+//----------------Devis invoices ---------------- admin
 app.use("/api/devis", devisRouter);
-// ----------------Training Sessions invoices ----------------
+// ----------------Training Sessions invoices ---------------- admin
 app.use("/api/trainingsessions", trainingSessions);
-// ----------------Transactions invoices ----------------
+// ----------------Transactions invoices ---------------- admin
 app.use("/api/transactions", transactions);
-//----------------- Calendar Events endpoint ----------------
+//----------------- Calendar Events endpoint ----------------  admin
 app.use("/api/calendar/events", calendarRouter);
-//--------------Incomes endpoint----------------
+//--------------Incomes endpoint---------------- admin
 app.use("/api/incomes", incomesRouter);
-//----------------- Expenses endpoint ----------------
+//----------------- Expenses endpoint ---------------- admin
 app.use("/api/expenses", expensesRouter);
-//----------------- annonces endpoint ----------------
+//----------------- annonces endpoint ---------------- instructor
 app.use("/api/annoucements", annoucementsRouter);
-//--------------evaluation endpoint----------------
+//--------------evaluation endpoint---------------- instructor
 app.use("/api/evaluation", evaluationRouter);
-//--------------payments endpoint----------------
+//--------------payments endpoint---------------- admin
 app.use("/api/payments", paymentsRouter);
-//--------------newsletter endpoint----------------
-app.use("/api/newsletters", newsletterRouter);
 
 // creating the 404 middleware to handle requestest for non exsiting endpoints
 app.use((req, res, next) => {
