@@ -38,6 +38,7 @@ const trainingsSchema = new Schema(
         TrainingCategory.python,
         TrainingCategory.ux_ui,
         TrainingCategory.junior,
+        TrainingCategory.data
       ],
     },
   },

@@ -12,10 +12,11 @@ export const trainingValidation = Joi.object({
       "Developpement Web 1",
       "Developpement Web 2",
       "Developpement Web 3",
-      "Design Graphique",
-      "Marketing Digitale",
+      "Design",
+      "Marketing",
       "Python",
       "UX/UI",
-      "Junior"
+      "Junior",
+      "Data science"
     ),
 });

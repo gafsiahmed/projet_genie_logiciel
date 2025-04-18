@@ -24,7 +24,12 @@ const TrainingSessionSchema: Schema = new mongoose.Schema(
     },
     instructor: { type: mongoose.Schema.Types.ObjectId, ref: 
       "Users" },
-    students: { type: [mongoose.Schema.Types.ObjectId], ref: "Students" },
+    // Make sure the ref property matches exactly with your model names
+    // For example:
+    students: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Student" // This should match the model name exactly
+    }],
     training: { type: mongoose.Schema.Types.ObjectId, ref: "Trainings" },
   },
   {

@@ -1,7 +1,7 @@
-import mongoose, { Schema } from "mongoose";
 import { ObjectId } from "mongodb";
+import mongoose, { Schema } from "mongoose";
 import Document, { IDocument } from "./Documents";
-import Student, { IStudent } from "./Student";
+import { IStudent } from "./Student";
 
 export interface IRecu {
   id: ObjectId;

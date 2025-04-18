@@ -1,21 +1,25 @@
 import { Router } from "express";
-
-import {
-  createTrainingSession,
-  deleteTrainingSession,
-  getTrainingSessionById,
-  getTrainingSessions,
-  getTrainingSessionsByInstructorId,
-  updateTrainingSession,
-} from "../../controllers/admin/trainingSessions.controller";
+import { TrainingSessionController } from "../../presentation/controllers/TrainingSessionController";
 
 const router = Router();
+const trainingSessionController = new TrainingSessionController();
 
-router.get("/", getTrainingSessions);
-router.get("/:id", getTrainingSessionById);
-router.post("/sessions", getTrainingSessionsByInstructorId);
-router.post("/", createTrainingSession);
-router.post("/:id", updateTrainingSession);
-router.delete("/:id", deleteTrainingSession);
+// Get all training sessions
+router.get("/",  trainingSessionController.getTrainingSessions);
+
+// Get training session by ID
+router.get("/:id",  trainingSessionController.getTrainingSessionById);
+
+// // Get training sessions by instructor email
+// router.post("/sessions", trainingSessionController.getTrainingSessionsByInstructorId);
+
+// Create a training session
+router.post("/",  trainingSessionController.createTrainingSession);
+
+// Update training session (changed from POST to PUT)
+router.put("/:id",  trainingSessionController.updateTrainingSession);
+
+// Delete training session
+router.delete("/:id",  trainingSessionController.deleteTrainingSession);
 
 export default router;

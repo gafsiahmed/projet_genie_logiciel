@@ -13,11 +13,8 @@ import error from "./middleware/error";
 import calendarRouter from "./routes/admin/calendar.route";
 import devisRouter from "./routes/admin/devis.route";
 import employeeRouter from "./routes/admin/employee.route";
-import expensesRouter from "./routes/admin/expenses.route";
-import incomesRouter from "./routes/admin/incomes.route";
 import instructorRouter from "./routes/admin/instructor.route";
 import invoiceRouter from "./routes/admin/invoice.route";
-import paymentsRouter from "./routes/admin/payment.route";
 import studentrouter from "./routes/admin/student.route";
 import trainingrouter from "./routes/admin/training.route";
 import trainingSessions from "./routes/admin/trainingSessions.route";
@@ -61,39 +58,36 @@ const { PORT } = process.env;
 app.get("/", (req: Request, res: Response) => {
   res.send(" <h1> Server is Running correctly ✅ </h1> ");
 });
-
-//--------------users endpoint---------------- all users
-app.use("/api/users", userRouter);
 //--------------login endpoint---------------- all users 
 app.use("/api", authRouter);
-//--------------trainings endpoint------------  admin
-app.use("/api/trainings", trainingrouter);
+//--------------users endpoint---------------- all users
+app.use("/api/users", userRouter);
 //--------------students endpoint---------- admin
 app.use("/api/students", studentrouter);
-//----------------intructors endpoint ---------------- admin
+//----------------intructors endpoint ---------------- admin done in oop ✅
 app.use("/api/instructors", instructorRouter);
+//--------------trainings endpoint------------  admin
+app.use("/api/trainings", trainingrouter);
+// ----------------Training Sessions invoices ---------------- admin
+app.use("/api/trainingsessions", trainingSessions);
 //---------------- employee invoices---------------- admin
 app.use("/api/employees", employeeRouter);
+// ----------------Transactions invoices ---------------- admin
+// Update these routes to use the transaction controller
+app.use("/api/transactions", transactions);
 //----------------invoices invoices ---------------- admin
 app.use("/api/invoices", invoiceRouter);
 //----------------Devis invoices ---------------- admin
 app.use("/api/devis", devisRouter);
-// ----------------Training Sessions invoices ---------------- admin
-app.use("/api/trainingsessions", trainingSessions);
-// ----------------Transactions invoices ---------------- admin
-app.use("/api/transactions", transactions);
 //----------------- Calendar Events endpoint ----------------  admin
 app.use("/api/calendar/events", calendarRouter);
-//--------------Incomes endpoint---------------- admin
-app.use("/api/incomes", incomesRouter);
-//----------------- Expenses endpoint ---------------- admin
-app.use("/api/expenses", expensesRouter);
+
 //----------------- annonces endpoint ---------------- instructor
 app.use("/api/annoucements", annoucementsRouter);
 //--------------evaluation endpoint---------------- instructor
 app.use("/api/evaluation", evaluationRouter);
 //--------------payments endpoint---------------- admin
-app.use("/api/payments", paymentsRouter);
+// app.use("/api/payments", paymentsRouter);
 
 // creating the 404 middleware to handle requestest for non exsiting endpoints
 app.use((req, res, next) => {

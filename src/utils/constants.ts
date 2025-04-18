@@ -23,9 +23,10 @@ export const TrainingCategory = {
     "2": "Developpement Web 2",
     "3": "Developpement Web 3",
   },
-  design: "Design Graphique",
-  marketing: "Marketing Digitale",
+  design: "Design",
+  marketing: "Marketing",
   python: "Python",
   ux_ui: "UX/UI",
   junior: "Junior",
+  data : "Data science"
 };

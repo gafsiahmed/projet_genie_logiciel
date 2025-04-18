@@ -1,25 +1,19 @@
 import express from "express";
-import {
-  createUser,
-  deleteUserById,
-  getAllUsers,
-  getUserById,
-  updateUserById,
-} from "../controllers/user.controller";
-import { accessByRole } from "../middleware/auth.middleware";
+import { UserController } from "../presentation/controllers/UserController";
 import { checkUserDoesNotExist } from "../middleware/user.middleware";
+
 const router = express.Router();
+const userController = new UserController();
 
 // get all users
-router.get("/", accessByRole(["admin"]), getAllUsers);
-//get user by id
-router.get("/:id", accessByRole(["admin"]), getUserById);
-//create new user
-router.post("/", accessByRole(["admin"]), checkUserDoesNotExist, createUser);
-//update exisiting user
-router.post("/:id", accessByRole(["admin"]), updateUserById);
-//delete a user by his id
-router.delete("/:id", accessByRole(["admin"]), deleteUserById);
-//get logged user
+router.get("/", userController.getAllUsers);
+// get user by id
+router.get("/:id", userController.getUserById);
+// create new user
+router.post("/", checkUserDoesNotExist, userController.createUser);
+// update existing user (changed from POST to PUT)
+router.put("/:id", userController.updateUser);
+// delete a user by id
+router.delete("/:id", userController.deleteUser);
 
 export default router;

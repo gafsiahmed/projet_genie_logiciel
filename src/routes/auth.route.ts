@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {
   getLoggedUser,
-  login,
   handleRefreshToken,
+  login,
   logout,
 } from "../controllers/auth.controller";
 import {
@@ -17,7 +17,7 @@ const router = Router();
 ("");
 
 //router.post('/', login);
-router.post("/login", [checkCredentials, login]);
+router.post("/auth", [checkCredentials, login]);
 router.get("/refreshtoken", handleRefreshToken);
 
 

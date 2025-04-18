@@ -2,7 +2,8 @@
 import { Request, Response } from "express";
 import TrainingSessionEvaluation from "../../models/Evaluation";
 import EvaluationDay from "../../models/EvaluationDay";
-import { IStudent } from "../../models/Student";
+// Update the import
+import Student, { IStudent } from "../../models/Student";
 import StudentEvaluation from "../../models/StudentEvaluation";
 import TrainingSession from "../../models/TrainingSession";
 

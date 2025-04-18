@@ -1,62 +1,57 @@
-import { ObjectId } from "mongodb";
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 
-export interface IStudent {
-  id: ObjectId;
+export interface IStudent extends mongoose.Document {
   firstName: string;
   lastName: string;
-  age: number;
-  trainingSession: string;
-  payment: number;
   email: string;
-  paymentStatus: "Paid" | "Not Paid" | "Pending";
-  phoneNumber: number;
+  phone: string;
+  address: string;
+  cin: string;
+  birthDate: Date;
+  gender: string;
+  educationLevel: string;
+  payment : number;
+  // Add other properties as needed
 }
 
-const StudentSchema: Schema = new mongoose.Schema(
+const studentSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-
-      required: [true, "Can't be blank"],
+      required: true,
     },
     lastName: {
       type: String,
-
-      required: [true, "Can't be blank"],
+      required: true,
     },
-
-    email: {
-      type: String,
-      unique: true,
-      required: [true, "Can't be blank"],
-      match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Please use a valid address"],
-    },
-    phoneNumber: {
+    age: {
       type: Number,
       required: true,
-      unique: true,
-      lenght: [8, "Please enter a valid telephone number"],
     },
-
     trainingSession: {
-      type: Schema.Types.String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "TrainingSession",
     },
     payment: {
       type: Number,
+      required: true,
     },
-
+    email: {
+      type: String,
+      required: true,
+    },
     paymentStatus: {
       type: String,
       enum: ["Paid", "Not Paid", "Pending"],
       default: "Not Paid",
     },
+    phoneNumber: {
+      type: Number,
+      required: true,
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
-// nom formateur nansewech referencié
-const Student = mongoose.model("Students", StudentSchema);
-export default Student;
+
+// Export both the model and the interface
+export default mongoose.model<IStudent>("Student", studentSchema);

@@ -1,18 +1,22 @@
 import { Router } from "express";
-import { accessByRole } from "../../middleware/auth.middleware";
-
-import {
-  createStudent,
-  deleteStudent,
-  getStudents,
-  updateStudent,
-} from "../../controllers/admin/student.controller";
+import { StudentController } from "../../presentation/controllers/StudentController";
 
 const router = Router();
+const studentController = new StudentController();
 
-router.post("/", accessByRole(["admin"]), createStudent);
-router.get("/", accessByRole(["admin"]), getStudents);
-router.delete("/:id", accessByRole(["admin"]), deleteStudent);
-router.post("/:id", accessByRole(["admin"]), updateStudent);
+// Create a student
+router.post("/", studentController.createStudent);
+
+// Get all students
+router.get("/", studentController.getStudents);
+
+// Get student by ID
+router.get("/:id", studentController.getStudentById);
+
+// Update student (changed from POST to PUT)
+router.put("/:id", studentController.updateStudent);
+
+// Delete student
+router.delete("/:id", studentController.deleteStudent);
 
 export default router;

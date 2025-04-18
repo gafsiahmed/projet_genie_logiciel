@@ -15,6 +15,11 @@ const userValidation = Joi.object({
     .required()
     .valid("admin", "marketingManager", "instructor", "user"),
   phoneNumber: Joi.number().required(),
+  training: Joi.string().when('role', {
+    is: 'instructor',
+    then: Joi.string().required(),
+    otherwise: Joi.string().optional()
+  })
 });
 
 const userValidationForUpdate = Joi.object({
@@ -30,7 +35,7 @@ const userValidationForUpdate = Joi.object({
     .min(3)
     .max(30)
     .optional()
-    .valid("admin", "marketingManager", "instructor", "user"),
+    .valid("admin", "instructor", "user"),
   phoneNumber: Joi.number().optional(),
 });
 
