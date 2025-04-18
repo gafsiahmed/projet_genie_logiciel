@@ -2,15 +2,17 @@ import { Request, Response } from "express";
 import { BaseController } from "./BaseController";
 import { TrainingService } from "../../application/services/TrainingService";
 import { TrainingRepository } from "../../infrastructure/repositories/TrainingRepository";
-import { trainingValidation } from "../../validation/training.validation";
+import { TrainingValidator } from "../../application/services/validation/TrainingValidator";
 
 export class TrainingController extends BaseController {
   private trainingService: TrainingService;
+  private trainingValidator: TrainingValidator;
   
   constructor() {
     super();
     const repository = new TrainingRepository();
     this.trainingService = new TrainingService(repository);
+    this.trainingValidator = new TrainingValidator();
     
     // Bind methods to ensure 'this' context
     this.createTraining = this.createTraining.bind(this);
@@ -22,13 +24,32 @@ export class TrainingController extends BaseController {
   
   async createTraining(req: Request, res: Response): Promise<Response> {
     try {
-      const { error, value } = trainingValidation.validate(req.body);
-      if (error) {
-        return this.sendBadRequest(res, error.details[0].message);
+      // Use TrainingValidator instead of Joi validation
+      const validationResult = this.trainingValidator.validate(req.body);
+      if (!validationResult.isValid) {
+        return this.sendBadRequest(res, validationResult.errors.join(", "));
       }
       
-      const training = await this.trainingService.createTraining(value);
+      const training = await this.trainingService.createTraining(req.body);
       return this.sendSuccess(res, training, 201);
+    } catch (error) {
+      return this.sendError(res, error);
+    }
+  }
+  
+  async updateTraining(req: Request, res: Response): Promise<Response> {
+    try {
+      // Use TrainingValidator for update validation as well
+      const validationResult = this.trainingValidator.validate(req.body);
+      if (!validationResult.isValid) {
+        return this.sendBadRequest(res, validationResult.errors.join(", "));
+      }
+      
+      const training = await this.trainingService.updateTraining(req.params.id, req.body);
+      if (!training) {
+        return this.sendNotFound(res, "Training not found");
+      }
+      return this.sendSuccess(res, training);
     } catch (error) {
       return this.sendError(res, error);
     }
@@ -49,23 +70,6 @@ export class TrainingController extends BaseController {
   async getTrainingById(req: Request, res: Response): Promise<Response> {
     try {
       const training = await this.trainingService.getTrainingById(req.params.id);
-      if (!training) {
-        return this.sendNotFound(res, "Training not found");
-      }
-      return this.sendSuccess(res, training);
-    } catch (error) {
-      return this.sendError(res, error);
-    }
-  }
-  
-  async updateTraining(req: Request, res: Response): Promise<Response> {
-    try {
-      const { error, value } = trainingValidation.validate(req.body);
-      if (error) {
-        return this.sendBadRequest(res, error.details[0].message);
-      }
-      
-      const training = await this.trainingService.updateTraining(req.params.id, value);
       if (!training) {
         return this.sendNotFound(res, "Training not found");
       }
