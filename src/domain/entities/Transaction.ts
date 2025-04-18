@@ -96,6 +96,7 @@ export class Transaction extends BaseEntity {
       category: this.category,
       from: this.from,
       paymentType: this.paymentType,
+      transactionType: this.transactionType,
       __t: this.transactionType, // For discriminator
       relatedEntity: this.relatedEntity
     };
@@ -111,7 +112,7 @@ export class Transaction extends BaseEntity {
       category: model.category,
       from: model.from,
       paymentType: model.paymentType,
-      transactionType: model.__t || (model.amount > 0 ? "Income" : "Expense"),
+      transactionType: model.__t || "Income",
       relatedEntity: model.relatedEntity
     });
   }

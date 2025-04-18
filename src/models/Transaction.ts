@@ -27,6 +27,11 @@ const transactionSchema = new mongoose.Schema({
     enum: ["cash", "check", "bank", "other"],
     default: "cash"
   },
+  transactionType: {
+    type: String,
+    enum: ["Income", "Expense"],
+    required: true
+  },
   relatedEntity: {
     type: mongoose.Schema.Types.ObjectId,
     refPath: 'relatedEntityModel'
@@ -42,7 +47,10 @@ const transactionSchema = new mongoose.Schema({
 const TransactionModel = mongoose.model("Transaction", transactionSchema);
 
 // Create discriminators for Income and Expense - without additional schema options
-TransactionModel.discriminator("Income", new mongoose.Schema({}));
-TransactionModel.discriminator("Expense", new mongoose.Schema({}));
+const IncomeModel = TransactionModel.discriminator("Income", new mongoose.Schema({}));
+const ExpenseModel = TransactionModel.discriminator("Expense", new mongoose.Schema({}));
+
+// Add middleware to ensure transactionType matches the discriminator
+
 
 export default TransactionModel;

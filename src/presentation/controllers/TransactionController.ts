@@ -43,7 +43,16 @@ export class TransactionController extends BaseController {
       const limit = req.query.limit ? parseInt(req.query.limit as string) : undefined;
       
       const transactions = await this.transactionService.getTransactions(page, limit);
-      return this.sendSuccess(res, transactions);
+      
+      // Ensure transactionType is set correctly based on __t
+      const formattedTransactions = Array.isArray(transactions) 
+        ? transactions.map(this.formatTransaction)
+        : {
+            ...transactions,
+            items: transactions.items.map(this.formatTransaction)
+          };
+      
+      return this.sendSuccess(res, formattedTransactions);
     } catch (error) {
       return this.sendError(res, error);
     }
@@ -55,10 +64,30 @@ export class TransactionController extends BaseController {
       if (!transaction) {
         return this.sendNotFound(res, "Transaction not found");
       }
-      return this.sendSuccess(res, transaction);
+      return this.sendSuccess(res, this.formatTransaction(transaction));
     } catch (error) {
       return this.sendError(res, error);
     }
+  }
+  
+  // Helper method to ensure transactionType is set correctly
+  private formatTransaction(transaction: any) {
+    if (transaction) {
+      // If it's a Mongoose document, convert to plain object
+      const transObj = transaction.toObject ? transaction.toObject() : transaction;
+      
+      // Ensure transactionType matches __t
+      if (transObj.__t === 'Income' && transObj.transactionType !== 'Income') {
+        transObj.transactionType = 'Income';
+      } else if (transObj.__t === 'Expense' && transObj.transactionType !== 'Expense') {
+        transObj.transactionType = 'Expense';
+      } else if (!transObj.transactionType && transObj.__t) {
+        transObj.transactionType = transObj.__t;
+      }
+      
+      return transObj;
+    }
+    return transaction;
   }
   
   async getIncomes(req: Request, res: Response): Promise<Response> {

@@ -69,6 +69,9 @@ export class StudentService {
       category: "TrainingPayment",
       paymentType: "cash",
       __t: "Income",
+      transactionType: "Income", // Add explicit transactionType field
+      relatedEntity: studentModel._id, // Add relatedEntity reference
+      relatedEntityModel: "Student" // Specify the model type
     };
     
     const newIncome = new TransactionModel(transaction);

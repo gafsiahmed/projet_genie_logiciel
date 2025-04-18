@@ -1,22 +1,32 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 
-export abstract class BaseController {
-  protected sendSuccess(res: Response, data: any, statusCode: number = 200): Response {
+export class BaseController {
+  protected sendSuccess(res: Response, data: any, statusCode = 200): Response {
     return res.status(statusCode).json(data);
   }
-  
-  protected sendError(res: Response, error: any, statusCode: number = 500): Response {
+
+  protected sendError(res: Response, error: any, message = "Internal server error"): Response {
     console.error(error);
-    return res.status(statusCode).json({ 
-      error: error instanceof Error ? error.message : error 
-    });
+    return res.status(500).json({ message, error: error.message });
   }
-  
-  protected sendNotFound(res: Response, message: string = "Resource not found"): Response {
-    return res.status(404).json({ message });
-  }
-  
+
   protected sendBadRequest(res: Response, message: string): Response {
     return res.status(400).json({ message });
+  }
+
+  protected sendUnauthorized(res: Response, message: string): Response {
+    return res.status(401).json({ message });
+  }
+
+  protected sendForbidden(res: Response, message: string): Response {
+    return res.status(403).json({ message });
+  }
+
+  protected sendNotFound(res: Response, message: string): Response {
+    return res.status(404).json({ message });
+  }
+
+  protected sendNoContent(res: Response, message?: string): Response {
+    return res.status(204).json(message ? { message } : undefined);
   }
 }
