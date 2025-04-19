@@ -2,7 +2,7 @@
   "name": "opus-dashboard-api",
   "version": "1.0.0",
   "description": "This is the Opus-dashboard api package file with all the dependencies needed",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/index.js",

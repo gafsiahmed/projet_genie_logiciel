@@ -1,23 +1,13 @@
 import express from "express";
-import {
-  createEvent,
-  deleteEventById,
-  getAllEvents,
-  getEventById,
-  updateEventById,
-} from "../../controllers/admin/calendar.controller";
+import { CalendarEventController } from "../../presentation/controllers/CalendarEventController";
 
 const router = express.Router();
+const controller = new CalendarEventController();
 
-// gett all events
-router.get("/", getAllEvents);
-//get event by id
-router.get("/:id", getEventById);
-//create new event
-router.post("/", createEvent);
-//update exisiting event
-router.post("/:id", updateEventById);
-//delete a event by his id
-router.delete("/:id", deleteEventById);
+router.get("/", controller.getAllEvents);
+router.get("/:id", controller.getEventById);
+router.post("/", controller.createEvent);
+router.post("/:id", controller.updateEvent);
+router.delete("/:id", controller.deleteEvent);
 
 export default router;

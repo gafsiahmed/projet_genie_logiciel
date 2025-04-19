@@ -1,17 +1,12 @@
 import { Router } from "express";
-
-import {
-  createDevis,
-  deleteDevis,
-  getDevis,
-  updateDevis,
-} from "../../controllers/admin/devis.controller";
+import { DevisController } from "../../presentation/controllers/DevisController";
 
 const router = Router();
+const controller = new DevisController();
 
-router.post("/", createDevis);
-router.get("/", getDevis);
-router.post("/:id", updateDevis);
-router.delete("/:id", deleteDevis);
+router.post("/", controller.createDevis);
+router.get("/", controller.getDevis);
+router.post("/:id", controller.updateDevis);
+router.delete("/:id", controller.deleteDevis);
 
 export default router;
