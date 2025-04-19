@@ -1,25 +1,30 @@
 import dotenv from "dotenv";
 import { Request, Response } from "express";
 import path from "path";
+import { AccessTokenFactory, RefreshTokenFactory } from "../../domain/factories/TokenFactory";
 import Token from "../../models/Tokens";
 import { IUser } from "../../models/User";
-import {
-    createAccessToken,
-    createRefreshToken,
-    deleteRefreshToken,
-    verifyRefreshToken
-} from "../../services/tokens.service";
+import { deleteRefreshToken, verifyRefreshToken } from "../../services/tokens.service";
 import { getUser } from "../../services/user.services";
 
 const envFilePath = path.join(__dirname, "../../.env");
 dotenv.config({ path: envFilePath });
 
 export class AuthController {
+  private accessTokenFactory: AccessTokenFactory;
+  private refreshTokenFactory: RefreshTokenFactory;
+
+  constructor() {
+    this.accessTokenFactory = new AccessTokenFactory();
+    this.refreshTokenFactory = new RefreshTokenFactory();
+  }
+
   async login(req: Request, res: Response) {
     const user = req.body.user;
     try {
-      const accesstoken = createAccessToken(user);
-      const refreshtoken = await createRefreshToken(user);
+      // Use factory method pattern for token creation
+      const accesstoken = this.accessTokenFactory.getToken(user);
+      const refreshtoken = await this.refreshTokenFactory.getToken(user);
 
       res.cookie("refreshtoken", refreshtoken, {
         httpOnly: true,
@@ -96,7 +101,9 @@ export class AuthController {
         lastName: getuser?.lastName,
         phoneNumber: getuser?.phoneNumber,
       } as IUser;
-      const accesstoken = createAccessToken(user);
+      
+      // Use factory method pattern for token creation
+      const accesstoken = this.accessTokenFactory.getToken(user);
 
       return res.status(200).json({ accesstoken });
     } catch (error) {
