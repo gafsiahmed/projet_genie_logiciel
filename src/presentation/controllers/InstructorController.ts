@@ -1,3 +1,4 @@
+import { EmailNotification } from "domain/notifcationStrategy/EmailNotification";
 import { Request, Response } from "express";
 import { InstructorService } from "../../application/services/InstructorService";
 import { InstructorRepository } from "../../infrastructure/repositories/InstructorRepository";
@@ -6,11 +7,13 @@ import { BaseController } from "./BaseController";
 
 export class InstructorController extends BaseController {
   private instructorService: InstructorService;
+  private emailNotifier = new EmailNotification();
+
   
   constructor() {
     super();
     const repository = new InstructorRepository();
-    this.instructorService = new InstructorService(repository);
+    this.instructorService = new InstructorService(repository,this.emailNotifier);
     
     // Bind methods to ensure 'this' context
     this.createInstructor = this.createInstructor.bind(this);

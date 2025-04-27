@@ -1,8 +1,10 @@
+import { ICalendarEventRepository } from "domain/repositories/ICalendarEventRepository";
 import { ObjectId } from "mongodb";
 import { CalendarEvent } from "../../domain/entities/CalendarEvent";
 import CalendarEventsModel from "../../models/CalendarEvents";
 
-export class CalendarEventRepository {
+export class CalendarEventRepository implements ICalendarEventRepository {
+  
   async findAll(): Promise<CalendarEvent[]> {
     const models = await CalendarEventsModel.find();
     return models.map(CalendarEvent.fromModel);

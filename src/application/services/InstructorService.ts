@@ -1,14 +1,17 @@
-import sgMail from "@sendgrid/mail";
 import bcrypt from "bcryptjs";
 import { ObjectId } from "mongodb";
 import { Instructor } from "../../domain/entities/Instructor";
 import { InstructorRepository } from "../../infrastructure/repositories/InstructorRepository";
 
+import { NotificationStrategy } from "../../domain/notifcationStrategy/INotificationStrategy";
+
 export class InstructorService {
   private repository: InstructorRepository;
-  
-  constructor(repository: InstructorRepository) {
+  private notifier: NotificationStrategy;
+
+  constructor(repository: InstructorRepository, notifier: NotificationStrategy) {
     this.repository = repository;
+    this.notifier = notifier;
   }
   
   async getInstructors(): Promise<Instructor[]> {
@@ -28,31 +31,26 @@ export class InstructorService {
     phoneNumber: number;
     training: string;
   }): Promise<Instructor> {
-    // Hash password
     const hashedPassword = await bcrypt.hash(instructorData.password, 10);
-    
-    // Create instructor entity
-    const instructor = new Instructor({
-      ...instructorData,
-      password: hashedPassword
-    });
-    
-    // Validate instructor
+    const instructor = new Instructor({ ...instructorData, password: hashedPassword });
+
     if (!instructor.validate()) {
       throw new Error("Invalid instructor data");
     }
-    
-    // Save to database
+
     const createdInstructor = await this.repository.create(instructor);
-    console.log(createdInstructor);
-    
-    // Send welcome email
-    await this.sendWelcomeEmail(
+
+    // Utilise la stratégie actuelle (email ou autre)
+    await this.notifier.send(
       instructorData.email,
-      instructorData.firstName,
-      instructorData.password
+      "Welcome to OpusBoard",
+      `
+        <h1>Welcome to OpusBoard</h1>
+        <p>Your email: <strong>${instructorData.email}</strong></p>
+        <p>Your password: <strong>${instructorData.password}</strong></p>
+      `
     );
-    
+
     return createdInstructor;
   }
   
@@ -85,31 +83,5 @@ export class InstructorService {
     return await this.repository.delete(id);
   }
   
-  private async sendWelcomeEmail(
-    email: string,
-    firstName: string,
-    password: string
-  ): Promise<void> {
-    const msg = {
-      to: email,
-      from: "selimbarka6@gmail.com",
-      subject: "Welcome to OpusBoard",
-      text: "Welcome to OpusBoard Instructor",
-      html: `
-        <style>
-          h1 { color: #0d6efd; }
-          p { color: #0d6efd; }
-        </style>
-        <h1>Welcome to OpusBoard</h1>
-        <br/>
-        <p>your email is <strong>${email}</strong></p>
-        <p>your password is <strong>${password}</strong></p>
-        <br/>
-        <p>If there is any problem please contact the admin on: tkdsayed@gmail.com</p>
-        <p>Thank you for using OpusBoard</p>
-      `
-    };
-    
-    await sgMail.send(msg);
-  }
+
 }

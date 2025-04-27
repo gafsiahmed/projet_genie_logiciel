@@ -1,11 +1,11 @@
+import { ICalendarEventRepository } from "domain/repositories/ICalendarEventRepository";
 import { ObjectId } from "mongodb";
 import { CalendarEvent } from "../../domain/entities/CalendarEvent";
-import { CalendarEventRepository } from "../../infrastructure/repositories/CalendarEventRepository";
 
 export class CalendarEventService {
-  private repository: CalendarEventRepository;
+  private repository: ICalendarEventRepository;
 
-  constructor(repository: CalendarEventRepository) {
+  constructor(repository: ICalendarEventRepository) {
     this.repository = repository;
   }
 

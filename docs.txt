@@ -1,0 +1,38 @@
+3) Appliquer au moins un patron de conception GRASP par membre de l’équipe.
+
+Objectif du patron :
+
+Le patron Controller de GRASP propose d’attribuer la responsabilité de gestion des événements système à une classe contrôleur dédiée. Cette classe agit comme intermédiaire entre l’interface utilisateur et la logique métier.
+🧠 Mise en œuvre dans notre projet :
+Nous avons appliqué le patron Controller en créant des classes comme DevisController, CalendarEventController et InstructorController. Ces classes sont responsables de :
+
+recevoir les requêtes HTTP,
+
+valider les données d'entrée (via des middlewares ou des validations Joi),
+
+déléguer les traitements aux services (DevisService, etc.),
+
+retourner une réponse HTTP au client.
+
+l'article « Understanding the GRASP Design Patterns » de Regan Koopmans 
+décrit le Controller comme l'objet responsable de la gestion des événements système,
+agissant comme intermédiaire entre l'interface utilisateur et la logique métier.
+Il souligne que ce patron permet de séparer proprement l'interface utilisateur des objets métier,
+facilitant ainsi leur évolution indépendante
+
+src : https://medium.com/%40ReganKoopmans/understanding-the-grasp-design-patterns-2cab23c7226e
+
+2) Appliquer au moins un patron de conception de chacune des trois catégories des
+patrons GoF : de création, de structure et de comportement. (Chaque membre de
+l’équipe doit prendre en charge UN patron GOF).
+
+(comportement):
+
+Le patron de conception Strategy a été appliqué pour la gestion des notifications lors de la création d’un instructeur. 
+En injectant dynamiquement une stratégie (EmailNotification ou SMSNotification) dans le service, nous rendons notre système 
+extensible et conforme au principe Open/Closed (OCP).
+ Cela permet d’ajouter de nouveaux canaux de notification sans modifier la logique existante.
+
+ src : https://medium.com/@asad99/implementing-the-strategy-pattern-dynamically-for-sending-notifications-in-c-b4edf76b61ce
+
+ 4) Appliquer au moins un principe SOLID par membre de l’équipe.
